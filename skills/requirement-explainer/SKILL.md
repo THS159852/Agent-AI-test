@@ -21,6 +21,7 @@ description: Explains requirements in plain language with examples and expected 
 ## How it works (step by step)
 ## Examples
 | Scenario | Input | Expected outcome |
+|----------|-------|------------------|
 ## What is NOT covered
 ## Assumptions / Questions / Risks
 ```

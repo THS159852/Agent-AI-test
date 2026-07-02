@@ -38,21 +38,21 @@ If files are referenced with `@path`, read them before routing.
 
 ## Step 2: Classify intent → pick skill
 
-| User intent | Skill to load | Skill path |
-|-------------|---------------|------------|
-| Analyze / parse requirement | requirement-analyzer | `skills/requirement-analyzer/SKILL.md` |
-| Learn business domain | domain-learner | `skills/domain-learner/SKILL.md` |
-| Explain requirement | requirement-explainer | `skills/requirement-explainer/SKILL.md` |
-| **Generate test cases** | **testcase-generator** | `skills/testcase-generator/SKILL.md` |
-| Write automation script | automation-script-writer | `skills/automation-script-writer/SKILL.md` |
-| Create test plan | test-plan-generator | `skills/test-plan-generator/SKILL.md` |
-| Analyze scope / impact | scope-analyzer | `skills/scope-analyzer/SKILL.md` |
-| Estimate effort | estimate-planner | `skills/estimate-planner/SKILL.md` |
-| Exploratory testing | exploratory-tester | `skills/exploratory-tester/SKILL.md` |
-| API testing focus | api-testing | `skills/api-testing/SKILL.md` |
-| Test data | testdata-generator | `skills/testdata-generator/SKILL.md` |
-| Risk analysis | risk-analyzer | `skills/risk-analyzer/SKILL.md` |
-| Regression strategy | regression-advisor | `skills/regression-advisor/SKILL.md` |
+| User intent             | Skill to load              | Skill path |
+|-------------------------|----------------------------|------------|
+| Analyze / parse requirement | requirement-analyzer    | `skills/requirement-analyzer/SKILL.md` |
+| Learn business domain   | domain-learner             | `skills/domain-learner/SKILL.md` |
+| Explain requirement     | requirement-explainer       | `skills/requirement-explainer/SKILL.md` |
+| **Generate test cases** | **testcase-generator**      | `skills/testcase-generator/SKILL.md` |
+| Write automation script | automation-script-writer    | `skills/automation-script-writer/SKILL.md` |
+| Create test plan        | test-plan-generator         | `skills/test-plan-generator/SKILL.md` |
+| Analyze scope / impact  | scope-analyzer              | `skills/scope-analyzer/SKILL.md` |
+| Estimate effort         | estimate-planner            | `skills/estimate-planner/SKILL.md` |
+| Exploratory testing     | exploratory-tester          | `skills/exploratory-tester/SKILL.md` |
+| API testing focus       | api-testing                 | `skills/api-testing/SKILL.md` |
+| Test data               | testdata-generator          | `skills/testdata-generator/SKILL.md` |
+| Risk analysis           | risk-analyzer               | `skills/risk-analyzer/SKILL.md` |
+| Regression strategy     | regression-advisor          | `skills/regression-advisor/SKILL.md` |
 
 ### Multi-skill chains (when user asks for a full pack)
 
@@ -102,13 +102,13 @@ When the user provides requirements and expects test artifacts, route to **`test
 
 ## MCP suggestions
 
-| Use case | MCP |
-|----------|-----|
-| Jira / Linear tickets | Jira MCP, Linear MCP |
+| Use case               | MCP |
+|------------------------|-----|
+| Jira / Linear tickets  | Jira MCP, Linear MCP |
 | Confluence / Notion docs | Confluence MCP, Notion MCP |
-| UI exploration | Playwright MCP, Browser MCP |
-| PR diff / scope | GitHub MCP |
-| API testing | REST/HTTP MCP, Postman MCP |
-| Test data / DB | PostgreSQL/MySQL MCP |
+| UI exploration         | Playwright MCP, Browser MCP |
+| PR diff / scope        | GitHub MCP |
+| API testing            | REST/HTTP MCP, Postman MCP |
+| Test data / DB         | PostgreSQL/MySQL MCP |
 
 If MCP is unavailable, use local read/search tools.

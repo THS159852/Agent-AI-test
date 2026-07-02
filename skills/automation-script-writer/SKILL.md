@@ -15,11 +15,11 @@ description: Generates test automation scripts from test cases using Playwright,
 
 ## Framework defaults (if unspecified)
 
-| Layer | Default |
-|-------|---------|
+| Layer   | Default |
+|---------|---------|
 | Web E2E | Playwright |
-| API | pytest + requests or Playwright API |
-| Mobile | Note framework if not in repo |
+| API     | pytest + requests or Playwright API |
+| Mobile  | Note framework if not in repo |
 
 ## Script quality
 

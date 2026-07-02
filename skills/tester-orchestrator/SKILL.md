@@ -9,20 +9,20 @@ Reference for the agent when routing. **Route to skills only — never to sub-ag
 
 ## Quick routing
 
-| Keywords | Skill |
-|----------|-------|
+| Keywords                           | Skill |
+|------------------------------------|-------|
 | test case, testcase, scenario, Verify | testcase-generator |
-| analyze requirement, parse spec | requirement-analyzer |
-| explain | requirement-explainer |
-| domain, glossary | domain-learner |
-| test plan | test-plan-generator |
-| scope, impact | scope-analyzer |
-| estimate, effort | estimate-planner |
-| exploratory | exploratory-tester |
-| automate, script | automation-script-writer |
-| test data | testdata-generator |
-| API, OpenAPI | api-testing |
-| risk | risk-analyzer |
-| regression | regression-advisor |
+| analyze requirement, parse spec     | requirement-analyzer |
+| explain                             | requirement-explainer |
+| domain, glossary                    | domain-learner |
+| test plan                           | test-plan-generator |
+| scope, impact                       | scope-analyzer |
+| estimate, effort                    | estimate-planner |
+| exploratory                         | exploratory-tester |
+| automate, script                    | automation-script-writer |
+| test data                           | testdata-generator |
+| API, OpenAPI                        | api-testing |
+| risk                                | risk-analyzer |
+| regression                          | regression-advisor |
 
 See [GUIDE.md](GUIDE.md) | [GUIDE.vi.md](GUIDE.vi.md)

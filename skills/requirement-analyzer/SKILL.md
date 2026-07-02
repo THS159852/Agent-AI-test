@@ -48,12 +48,12 @@ description: Parses and structures requirements from documents and tickets into 
 
 ## Multi-format tips
 
-| Format | Focus |
-|--------|-------|
-| PDF/DOCX | Headings, numbered lists, tables |
-| Excel | Column = field rules; rows = scenarios |
-| OpenAPI | Endpoints, schemas, error responses |
-| Screenshots | Labels, buttons, states (as stated) |
+| Format       | Focus |
+|--------------|-------|
+| PDF/DOCX     | Headings, numbered lists, tables |
+| Excel        | Column = field rules; rows = scenarios |
+| OpenAPI      | Endpoints, schemas, error responses |
+| Screenshots  | Labels, buttons, states (as stated) |
 
 ## MCP
 

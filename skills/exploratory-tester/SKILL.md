@@ -34,6 +34,7 @@ description: Creates exploratory testing charters, heuristics, and session guide
 
 ## Notes template
 | Time | Area | Observation | Severity hint |
+|------|------|-------------|---------------|
 ```
 
 ## MCP

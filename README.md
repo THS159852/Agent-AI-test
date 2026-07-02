@@ -8,11 +8,11 @@ One **Agent** receives requests and routes to the right **Skill**. No sub-agents
 User request → tester-orchestrator (Agent) → skills/<name>/SKILL.md → Output
 ```
 
-| Layer | What | Where |
-|-------|------|-------|
-| **Agent** | Intake, triage, route to skill | `agents/tester-orchestrator.md` |
+| Layer     | What                                | Where |
+|-----------|-------------------------------------|-------|
+| **Agent** | Intake, triage, route to skill       | `agents/tester-orchestrator.md` |
 | **Skill** | Do the work (testcase, plan, estimate, ...) | `skills/<name>/SKILL.md` |
-| **Guide** | Human docs (EN + VI) | `skills/<name>/GUIDE.md`, `GUIDE.vi.md` |
+| **Guide** | Human docs (EN + VI)                 | `skills/<name>/GUIDE.md`, `GUIDE.vi.md` |
 
 ## Structure
 
@@ -35,21 +35,21 @@ agents/
 
 ## Skills
 
-| Skill | Purpose |
-|-------|---------|
-| requirement-analyzer | Parse and structure requirements |
-| domain-learner | Learn business domain |
-| requirement-explainer | Explain requirements plainly |
-| **testcase-generator** | **Generate test cases (Verify…, English)** |
-| automation-script-writer | Write automation scripts |
-| test-plan-generator | Create test plans |
-| scope-analyzer | Analyze impact scope |
-| estimate-planner | Estimate QA effort |
-| exploratory-tester | Exploratory testing charters |
-| risk-analyzer | QA risk register |
-| testdata-generator | Test data sets |
-| api-testing | API test design |
-| regression-advisor | Regression strategy |
+| Skill                   | Purpose |
+|-------------------------|---------|
+| requirement-analyzer    | Parse and structure requirements |
+| domain-learner          | Learn business domain |
+| requirement-explainer   | Explain requirements plainly |
+| **testcase-generator**  | **Generate test cases (Verify…, English)** |
+| automation-script-writer| Write automation scripts |
+| test-plan-generator     | Create test plans |
+| scope-analyzer          | Analyze impact scope |
+| estimate-planner        | Estimate QA effort |
+| exploratory-tester      | Exploratory testing charters |
+| risk-analyzer           | QA risk register |
+| testdata-generator      | Test data sets |
+| api-testing             | API test design |
+| regression-advisor      | Regression strategy |
 
 ## Install in Cursor
 
@@ -76,12 +76,12 @@ Follow skills/testcase-generator/SKILL.md for this user story: ...
 
 ## Typical routing
 
-| User request | Skill chain |
-|--------------|-------------|
+| User request        | Skill chain |
+|--------------------|------------|
 | Generate test cases | testcase-generator |
 | Explain requirement | requirement-explainer |
-| Estimate effort | scope-analyzer → estimate-planner |
-| Full QA pack | analyzer → scope → plan → testcase → testdata |
+| Estimate effort     | scope-analyzer → estimate-planner |
+| Full QA pack        | analyzer → scope → plan → testcase → testdata |
 
 ## GitHub workflow
 

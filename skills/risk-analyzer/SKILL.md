@@ -20,6 +20,7 @@ description: Builds QA risk registers with likelihood, impact, mitigation, and t
 ```markdown
 ## Risk Register
 | ID | Risk | Category | Likelihood | Impact | Mitigation | Test focus |
+|----|------|----------|------------|--------|------------|-----------|
 ```
 
 See [GUIDE.md](GUIDE.md) | [GUIDE.vi.md](GUIDE.vi.md)

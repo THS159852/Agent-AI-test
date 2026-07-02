@@ -19,6 +19,7 @@ description: Maps change impact and QA scope across modules, APIs, integrations,
 ## Change Summary
 ## Impacted Areas
 | Area | Impact | Reason | Suggested depth |
+|------|--------|--------|-----------------|
 ## APIs / Integrations
 ## Regression Candidates
 ## Dependency Map

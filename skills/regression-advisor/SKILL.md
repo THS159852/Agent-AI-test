@@ -22,6 +22,7 @@ description: Recommends regression testing tiers, priority suites, and release g
 
 ## Release Gate — Must Pass
 | ID/Area | Reason |
+|---------|--------|
 
 ## Assumptions / Questions / Risks
 ```

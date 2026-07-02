@@ -10,8 +10,8 @@ User nhập yêu cầu → Tester Agent → Skill phù hợp → Kết quả
 
 | Thành phần | Vai trò |
 |------------|---------|
-| **Agent** | Nhận request, đọc prompt/file, chọn đúng skill, trả kết quả |
-| **Skill** | Làm việc thực tế (phân tích, sinh testcase, lập plan, ...) |
+| **Agent**  | Nhận request, đọc prompt/file, chọn đúng skill, trả kết quả |
+| **Skill**  | Làm việc thực tế (phân tích, sinh testcase, lập plan, ...) |
 
 ## Agent làm gì
 
@@ -29,20 +29,20 @@ User nhập yêu cầu → Tester Agent → Skill phù hợp → Kết quả
 
 ## Bảng routing nhanh
 
-| User cần | Skill |
-|----------|-------|
+| User cần              | Skill |
+|----------------------|-------|
 | Phân tích requirement | `requirement-analyzer` |
-| Học domain | `domain-learner` |
+| Học domain            | `domain-learner` |
 | Giải thích requirement | `requirement-explainer` |
-| **Sinh testcase** | **`testcase-generator`** |
+| **Sinh testcase**     | **`testcase-generator`** |
 | Viết script automation | `automation-script-writer` |
-| Lập test plan | `test-plan-generator` |
-| Phân tích scope | `scope-analyzer` |
-| Estimate effort | `estimate-planner` |
-| Exploratory testing | `exploratory-tester` |
-| Test API | `api-testing` |
-| Sinh test data | `testdata-generator` |
-| Phân tích rủi ro | `risk-analyzer` |
+| Lập test plan         | `test-plan-generator` |
+| Phân tích scope       | `scope-analyzer` |
+| Estimate effort        | `estimate-planner` |
+| Exploratory testing    | `exploratory-tester` |
+| Test API              | `api-testing` |
+| Sinh test data        | `testdata-generator` |
+| Phân tích rủi ro      | `risk-analyzer` |
 | Chiến lược regression | `regression-advisor` |
 
 ## Ví dụ prompt

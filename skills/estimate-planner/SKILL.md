@@ -32,11 +32,11 @@ description: Estimates QA effort for test design, execution, automation, and reg
 
 ## Heuristics (adjust per project)
 
-| Signal | Impact |
-|--------|--------|
-| Each AC | +1–3 test cases |
-| New API endpoint | +2–4h design + exec |
-| New role/permission | +test matrix expansion |
+| Signal                 | Impact |
+|------------------------|--------|
+| Each AC                | +1–3 test cases |
+| New API endpoint       | +2–4h design + exec |
+| New role/permission    | +test matrix expansion |
 | Third-party integration | +env dependency risk |
 
 See [GUIDE.md](GUIDE.md) | [GUIDE.vi.md](GUIDE.vi.md)

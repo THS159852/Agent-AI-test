@@ -16,6 +16,7 @@ description: Designs API test coverage from OpenAPI specs including auth, payloa
 ## Coverage matrix
 
 | Endpoint | Method | Auth | Positive | Negative | Boundary |
+|----------|--------|------|----------|----------|----------|
 
 ## MCP
 

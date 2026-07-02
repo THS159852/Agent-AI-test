@@ -8,11 +8,11 @@
 User nhập yêu cầu → tester-orchestrator (Agent) → skills/<tên>/SKILL.md → Kết quả
 ```
 
-| Lớp | Làm gì | Ở đâu |
-|-----|--------|-------|
+| Lớp     | Làm gì                           | Ở đâu |
+|---------|----------------------------------|------|
 | **Agent** | Nhận request, phân loại, chọn skill | `agents/tester-orchestrator.md` |
 | **Skill** | Xử lý chuyên môn (testcase, plan, ...) | `skills/<tên>/SKILL.md` |
-| **Guide** | Tài liệu cho người (EN + VI) | `skills/<tên>/GUIDE.vi.md` |
+| **Guide** | Tài liệu cho người (EN + VI)     | `skills/<tên>/GUIDE.vi.md` |
 
 ## Cấu trúc thư mục
 
@@ -34,31 +34,31 @@ agents/
 
 ## Tại sao không cần sub-agent?
 
-| Sub-agent (cũ) | Skill (đúng mô hình) |
-|----------------|----------------------|
+| Sub-agent (cũ)                     | Skill (đúng mô hình) |
+|------------------------------------|----------------------|
 | Mỗi việc 1 agent riêng → trùng lặp | 1 agent điều phối, skill làm việc |
-| Cursor phải chọn agent nào | Agent đọc prompt → load skill |
-| Agent + Skill trùng nội dung | Agent mỏng, skill đầy đủ workflow |
+| Cursor phải chọn agent nào         | Agent đọc prompt → load skill |
+| Agent + Skill trùng nội dung       | Agent mỏng, skill đầy đủ workflow |
 
 **Agent = người nhận và route. Skill = người xử lý.**
 
 ## Danh sách Skill
 
-| Skill | Mục đích |
-|-------|----------|
-| requirement-analyzer | Phân tích requirement |
-| domain-learner | Học domain nghiệp vụ |
-| requirement-explainer | Giải thích requirement |
+| Skill                  | Mục đích |
+|------------------------|----------|
+| requirement-analyzer   | Phân tích requirement |
+| domain-learner         | Học domain nghiệp vụ |
+| requirement-explainer  | Giải thích requirement |
 | **testcase-generator** | **Sinh testcase (Verify, tiếng Anh)** |
 | automation-script-writer | Viết script automation |
-| test-plan-generator | Lập test plan |
-| scope-analyzer | Phân tích scope |
-| estimate-planner | Estimate effort |
-| exploratory-tester | Exploratory testing |
-| risk-analyzer | Phân tích rủi ro |
-| testdata-generator | Sinh test data |
-| api-testing | Test API |
-| regression-advisor | Chiến lược regression |
+| test-plan-generator    | Lập test plan |
+| scope-analyzer         | Phân tích scope |
+| estimate-planner       | Estimate effort |
+| exploratory-tester     | Exploratory testing |
+| risk-analyzer          | Phân tích rủi ro |
+| testdata-generator     | Sinh test data |
+| api-testing            | Test API |
+| regression-advisor     | Chiến lược regression |
 
 ## Cài đặt
 
@@ -77,12 +77,12 @@ Agent tự route sang skill `testcase-generator`.
 
 ## Luồng routing
 
-| Yêu cầu | Skill |
-|---------|-------|
-| Sinh testcase | testcase-generator |
+| Yêu cầu          | Skill |
+|------------------|-------|
+| Sinh testcase    | testcase-generator |
 | Giải thích requirement | requirement-explainer |
-| Estimate | scope-analyzer → estimate-planner |
-| Gói QA đầy đủ | analyzer → scope → plan → testcase → testdata |
+| Estimate         | scope-analyzer → estimate-planner |
+| Gói QA đầy đủ    | analyzer → scope → plan → testcase → testdata |
 
 ## Quản lý bằng GitHub
 

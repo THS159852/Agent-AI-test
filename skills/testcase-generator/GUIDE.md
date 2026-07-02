@@ -2,71 +2,82 @@
 
 ## What this skill does
 
-Turns requirements into **executable QA test cases** with consistent format and broad coverage.
+Turns requirements into **executable QA test cases**: traceable, grouped, with concrete test data and a quality checklist before delivery.
 
 ## When to use
 
-- New user story ready for QA
-- Need regression pack for a feature
+- User story ready for QA
+- Regression pack for a feature
 - API or UI spec needs validation steps
-- Orchestrator delegated testcase task after analysis
-
-## Inputs
-
-| Input | Tips |
-|-------|------|
-| User Story + AC | Best source — map 1:1 to Requirement Ref |
-| OpenAPI | Focus on status codes, schemas, auth |
-| UI mockup | Derive visible states and validations |
-| Excel rules | Each row/rule → at least one test case |
+- Tester agent routes here after reading your prompt
 
 ## Output contract
 
-Markdown table + coverage summary. All titles in English starting with **Verify**.
+| Deliverable | Format |
+|-------------|--------|
+| Test cases  | Markdown table (see columns below) |
+| Coverage    | Summary + matrix + gaps |
+| Gaps        | Assumptions / Questions / Risks |
 
-## Priority: Verify prefix
+### Standard columns
+
+`ID` · `Module` · `Requirement Ref` · `Title` · `Preconditions` · `Test Data` · `Steps` · `Expected Result` · `Priority` · `Test Type` · `Auto Candidate`
+
+## Title rule (critical)
 
 ```
-Verify <subject> <expected behavior/outcome>
+Verify <subject> <expected outcome>
 ```
 
-Examples:
+All English. All titles start with **Verify**. See [examples.md](examples.md).
 
-- `Verify guest cannot access admin dashboard`
-- `Verify order total includes tax when tax-enabled region is selected`
-- `Verify POST /orders returns 400 when quantity is zero`
+## Test design techniques
 
-## Coverage matrix (quick reference)
+| Technique                 | Use for |
+|--------------------------|---------|
+| Equivalence partitioning | Valid vs invalid input classes |
+| Boundary values          | Min, max, empty, null |
+| Decision table           | Multi-condition business rules |
+| State transition         | Status workflows |
 
-| Type | What to test |
-|------|--------------|
-| Positive | Valid path meets AC |
-| Negative | Invalid input, wrong role, wrong state |
-| Boundary | 0, 1, max, max+1, empty, null |
-| Validation | Field rules: format, length, required |
-| Permission | Each role: allowed vs denied |
-| API | Method, auth, payload, error codes |
-| UI | Labels, states, navigation, messages |
+## Priority
+
+| Level | Typical content |
+|-------|-----------------|
+| P0    | Happy path, security, data loss, auth |
+| P1    | Main negatives, validations, boundaries |
+| P2    | Secondary flows |
+| P3    | Cosmetic / edge nice-to-have |
+
+## Export tips
+
+Copy markdown table into:
+
+- **Excel / Google Sheets** — paste and split columns
+- **TestRail / Zephyr** — map columns to custom fields
+- **Jira Xray** — Title → Summary, Steps → Test Steps
+
+Ask the agent: "Export testcase as CSV" if you need comma-separated output.
+
+## Workflow with other skills
+
+```
+requirement-analyzer (if AC messy) → testcase-generator → testdata-generator → automation-script-writer
+```
 
 ## MCP suggestions
 
 | MCP | Benefit |
 |-----|---------|
-| Jira / Linear | Pull AC directly from ticket |
-| Confluence / Notion | Read full spec |
-| OpenAPI / Swagger tools | Parse endpoints |
-| Playwright / Browser | Confirm UI labels and flows |
-
-## Related agents
-
-- **requirement-analyzer** — run first if AC are messy
-- **testdata-generator** — after cases, generate data sets
-- **automation-script-writer** — automate P0/P1 cases
+| Jira / Linear | Pull AC from ticket |
+| Confluence / Notion | Full spec |
+| Playwright / Browser | Confirm UI labels |
+| OpenAPI tools | Parse endpoints |
 
 ## Files
 
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | Agent workflow (this folder) |
-| `GUIDE.md` | This file — human explanation |
-| `GUIDE.vi.md` | Vietnamese version |
+| File          | Purpose |
+|---------------|---------|
+| `SKILL.md`    | Full workflow for AI |
+| `examples.md` | Login, form, API samples |
+| `GUIDE.vi.md` | Vietnamese guide |

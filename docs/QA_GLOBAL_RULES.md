@@ -14,31 +14,38 @@ Shared standards for all QA skills used by the Tester Agent.
 
 Agents must read and interpret:
 
-| Format | How to read |
-|--------|-------------|
-| Markdown / TXT | Read directly |
-| PDF / DOCX | Extract text; note if layout/tables may be lossy |
-| Excel / CSV | Read sheets; identify columns, rules, sample data |
+| Format                | How to read |
+|-----------------------|-------------|
+| Markdown / TXT        | Read directly |
+| PDF / DOCX            | Extract text; note if layout/tables may be lossy |
+| Excel / CSV           | Read sheets; identify columns, rules, sample data |
 | JSON / YAML / OpenAPI | Parse structure, endpoints, schemas |
-| Images / Screenshots | Describe UI elements, flows, labels |
-| Jira / ticket text | Parse title, description, AC, attachments |
-| Code / config | Identify behavior: modules, APIs, flags |
+| Images / Screenshots  | Describe UI elements, flows, labels |
+| Jira / ticket text    | Parse title, description, AC, attachments |
+| Code / config         | Identify behavior: modules, APIs, flags |
 
 ## Test Case Standard (Mandatory)
 
-| Field | Rule |
-|-------|------|
-| Language | **English only** |
-| Title | **Must start with `Verify`** |
-| ID | `TC-XXX` or project convention |
-| Priority | P0 / P1 / P2 / P3 |
+| Field     | Rule |
+|-----------|------|
+| Language  | **English only** |
+| Title     | **Must start with `Verify`** |
+| ID        | `TC-XXX` or project convention |
+| Priority  | P0 / P1 / P2 / P3 |
 | Test Type | Functional, UI, API, Integration, Regression, etc. |
 
 ### Required fields per test case
 
 ```
-ID | Title | Preconditions | Steps | Expected Result | Priority | Test Type
+ID | Module | Requirement Ref | Title | Preconditions | Test Data | Steps | Expected Result | Priority | Test Type | Auto Candidate
 ```
+
+| Field          | Rule |
+|----------------|------|
+| Title          | English, starts with **Verify** |
+| Test Data      | Concrete values, not vague placeholders |
+| Expected Result | Observable: message text, URL, HTTP code, UI/DB state |
+| Auto Candidate | Yes / No for automation suitability |
 
 ### Coverage checklist
 
@@ -74,14 +81,14 @@ Each skill:
 
 ## MCP Server Suggestions (Optional)
 
-| Use case | Suggested MCP |
-|----------|---------------|
-| Read Jira/Linear tickets | Jira MCP, Linear MCP |
+| Use case                    | Suggested MCP |
+|----------------------------|---------------|
+| Read Jira/Linear tickets    | Jira MCP, Linear MCP |
 | Read Confluence/Notion docs | Confluence MCP, Notion MCP |
-| Browser / UI exploration | Playwright MCP, Browser MCP |
-| API testing | REST/HTTP MCP, Postman MCP |
-| Database test data | PostgreSQL/MySQL MCP |
-| GitHub PR / diff context | GitHub MCP |
-| File storage attachments | Google Drive MCP, S3 MCP |
+| Browser / UI exploration    | Playwright MCP, Browser MCP |
+| API testing                 | REST/HTTP MCP, Postman MCP |
+| Database test data          | PostgreSQL/MySQL MCP |
+| GitHub PR / diff context    | GitHub MCP |
+| File storage attachments    | Google Drive MCP, S3 MCP |
 
 If MCP is unavailable, use built-in read/search tools on local files.

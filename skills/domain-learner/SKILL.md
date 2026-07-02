@@ -19,6 +19,7 @@ description: Builds domain glossary, workflows, and entity models from product d
 ## Domain Overview
 ## Glossary
 | Term | Definition | Source |
+|------|------------|--------|
 
 ## Key Workflows
 ### Workflow: <name>
@@ -26,6 +27,7 @@ description: Builds domain glossary, workflows, and entity models from product d
 
 ## Entities
 | Entity | Attributes | Relationships |
+|--------|------------|---------------|
 
 ## Business Constraints
 ## Testing Implications

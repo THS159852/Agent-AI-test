@@ -12,31 +12,38 @@ Tiêu chuẩn dùng chung cho tất cả skill trong hệ thống Tester Agent.
 
 ## Định dạng input hỗ trợ
 
-| Định dạng | Cách đọc |
-|-----------|----------|
-| Markdown / TXT | Đọc trực tiếp |
-| PDF / DOCX | Trích xuất text; lưu ý bảng/layout có thể mất |
-| Excel / CSV | Đọc sheet; xác định cột, rule, sample data |
+| Định dạng             | Cách đọc |
+|-----------------------|----------|
+| Markdown / TXT        | Đọc trực tiếp |
+| PDF / DOCX            | Trích xuất text; lưu ý bảng/layout có thể mất |
+| Excel / CSV           | Đọc sheet; xác định cột, rule, sample data |
 | JSON / YAML / OpenAPI | Parse cấu trúc, endpoint, schema |
-| Ảnh / Screenshot | Mô tả UI, luồng, label |
-| Jira / ticket | Parse title, mô tả, AC, đính kèm |
-| Code / config | Xác định module, API, feature flag bị ảnh hưởng |
+| Ảnh / Screenshot      | Mô tả UI, luồng, label |
+| Jira / ticket         | Parse title, mô tả, AC, đính kèm |
+| Code / config         | Xác định module, API, feature flag bị ảnh hưởng |
 
 ## Chuẩn Test Case (bắt buộc)
 
-| Trường | Quy tắc |
-|--------|---------|
-| Ngôn ngữ | **Tiếng Anh** |
-| Tiêu đề | **Bắt đầu bằng `Verify`** |
-| ID | `TC-XXX` hoặc convention dự án |
-| Priority | P0 / P1 / P2 / P3 |
+| Trường    | Quy tắc |
+|-----------|---------|
+| Ngôn ngữ  | **Tiếng Anh** |
+| Tiêu đề   | **Bắt đầu bằng `Verify`** |
+| ID        | `TC-XXX` hoặc convention dự án |
+| Priority  | P0 / P1 / P2 / P3 |
 | Test Type | Functional, UI, API, Integration, Regression, ... |
 
 ### Trường bắt buộc mỗi test case
 
 ```
-ID | Title | Preconditions | Steps | Expected Result | Priority | Test Type
+ID | Module | Requirement Ref | Title | Preconditions | Test Data | Steps | Expected Result | Priority | Test Type | Auto Candidate
 ```
+
+| Trường           | Quy tắc |
+|------------------|---------|
+| Title            | Tiếng Anh, bắt đầu **Verify** |
+| Test Data        | Giá trị cụ thể, không mơ hồ |
+| Expected Result  | Quan sát được: message, URL, mã HTTP, trạng thái UI/DB |
+| Auto Candidate   | Yes / No — có nên automate không |
 
 ### Checklist coverage
 
@@ -63,13 +70,13 @@ Luôn cân nhắc:
 
 ## Gợi ý MCP Server
 
-| Mục đích | MCP gợi ý |
-|----------|-----------|
-| Đọc ticket Jira/Linear | Jira MCP, Linear MCP |
+| Mục đích                   | MCP gợi ý |
+|---------------------------|-----------|
+| Đọc ticket Jira/Linear     | Jira MCP, Linear MCP |
 | Đọc tài liệu Confluence/Notion | Confluence MCP, Notion MCP |
-| Khám phá UI | Playwright MCP, Browser MCP |
-| Test API | REST/HTTP MCP, Postman MCP |
-| Test data DB | PostgreSQL/MySQL MCP |
-| PR / diff GitHub | GitHub MCP |
+| Khám phá UI                | Playwright MCP, Browser MCP |
+| Test API                   | REST/HTTP MCP, Postman MCP |
+| Test data DB               | PostgreSQL/MySQL MCP |
+| PR / diff GitHub           | GitHub MCP |
 
 Nếu không có MCP, dùng công cụ read/search trên file local.

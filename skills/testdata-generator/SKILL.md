@@ -17,12 +17,15 @@ description: Creates test data sets mapped to test cases including valid, invali
 ```markdown
 ## Data Set Overview
 | Data Set ID | Purpose | Test Case IDs |
+|------------|---------|---------------|
 
 ## Valid Data
 | Field | Value | Notes |
+|-------|-------|-------|
 
 ## Invalid / Boundary Data
 | Field | Value | Expected validation | Test Case ID |
+|-------|-------|---------------------|--------------|
 
 ## Setup Instructions
 ## Assumptions / Questions / Risks

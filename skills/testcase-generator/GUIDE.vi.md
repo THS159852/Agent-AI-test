@@ -2,71 +2,87 @@
 
 ## Skill này làm gì
 
-Chuyển requirement thành **test case QA** có cấu trúc, coverage rộng, format thống nhất.
+Chuyển requirement thành **testcase QA thực thi được**: có traceability, test data cụ thể, checklist chất lượng trước khi giao.
 
 ## Khi nào dùng
 
 - User Story sẵn sàng cho QA
-- Cần bộ regression cho feature
+- Cần bộ regression
 - Spec API/UI cần bước kiểm thử
-- Orchestrator giao task sinh testcase sau bước phân tích
-
-## Input
-
-| Input | Gợi ý |
-|-------|-------|
-| User Story + AC | Nguồn tốt nhất — map Requirement Ref |
-| OpenAPI | Status code, schema, auth |
-| Mockup UI | Trạng thái màn hình, validation |
-| Excel rules | Mỗi rule → ít nhất 1 testcase |
+- Tester agent route sang skill này sau khi đọc prompt
 
 ## Output
 
-Bảng markdown + coverage summary. Tiêu đề tiếng Anh, bắt đầu **Verify**.
+| Thành phần | Nội dung |
+|------------|----------|
+| Testcase   | Bảng markdown (11 cột chuẩn) |
+| Coverage   | Summary + ma trận + gaps |
+| Thiếu sót  | Assumptions / Questions / Risks |
 
-## Công thức tiêu đề
+### Cột chuẩn
+
+`ID` · `Module` · `Requirement Ref` · `Title` · `Preconditions` · `Test Data` · `Steps` · `Expected Result` · `Priority` · `Test Type` · `Auto Candidate`
+
+## Quy tắc tiêu đề (bắt buộc)
 
 ```
-Verify <đối tượng> <hành vi/kết quả mong đợi>
+Verify <đối tượng> <kết quả mong đợi>
 ```
 
-Ví dụ:
+- Tiếng **Anh**
+- Bắt đầu **Verify**
+- Ví dụ đầy đủ: [examples.md](examples.md)
 
-- `Verify guest cannot access admin dashboard`
-- `Verify order total includes tax when tax-enabled region is selected`
-- `Verify POST /orders returns 400 when quantity is zero`
+## Kỹ thuật thiết kế test
 
-## Ma trận coverage
+| Kỹ thuật                  | Dùng khi |
+|--------------------------|----------|
+| Equivalence partitioning | Phân lớp input hợp lệ / không hợp lệ |
+| Boundary values          | Min, max, empty, null |
+| Decision table           | Rule nhiều điều kiện (giảm giá, phê duyệt) |
+| State transition         | Luồng trạng thái Draft → Approved |
 
-| Loại | Kiểm tra gì |
-|------|-------------|
-| Positive | Happy path đúng AC |
-| Negative | Input sai, role sai, state sai |
-| Boundary | 0, 1, max, max+1, empty, null |
-| Validation | Format, độ dài, bắt buộc |
-| Permission | Từng role: được / bị chặn |
-| API | Method, auth, payload, mã lỗi |
-| UI | Label, trạng thái, điều hướng, message |
+## Mức ưu tiên
 
-## Gợi ý MCP
+| Mức | Nội dung thường gặp |
+|-----|---------------------|
+| P0  | Happy path, bảo mật, mất dữ liệu, auth |
+| P1  | Negative chính, validation, boundary |
+| P2  | Luồng phụ |
+| P3  | Cosmetic |
 
-| MCP | Lợi ích |
-|-----|---------|
-| Jira / Linear | Lấy AC từ ticket |
-| Confluence / Notion | Đọc spec đầy đủ |
-| OpenAPI tools | Parse endpoint |
-| Playwright / Browser | Xác nhận UI thực tế |
+## Cột mới so với bản cũ
 
-## Agent liên quan
+| Cột             | Ý nghĩa |
+|-----------------|---------|
+| **Module**      | Nhóm theo feature/màn hình |
+| **Test Data**   | Giá trị cụ thể (`user@test.com`, không chỉ "email hợp lệ") |
+| **Auto Candidate** | Yes/No — case nào nên automate |
 
-- **requirement-analyzer** — chạy trước nếu AC lộn xộn
-- **testdata-generator** — sinh data sau khi có testcase
-- **automation-script-writer** — automate P0/P1
+## Checklist trước khi giao
 
-## Cấu trúc file
+- Mọi title bắt đầu **Verify**, tiếng Anh
+- Expected result cụ thể (message, URL, status code)
+- Không tự bịa business rule
+- Không trùng case
+- P0 đủ happy path + security
 
-| File | Mục đích |
-|------|----------|
-| `SKILL.md` | Workflow cho AI |
-| `GUIDE.md` | Giải thích tiếng Anh |
-| `GUIDE.vi.md` | File này |
+## Export
+
+- Paste bảng vào Excel / Google Sheets
+- Map sang TestRail, Zephyr, Jira Xray
+- Có thể yêu cầu agent: "Export testcase as CSV"
+
+## Luồng với skill khác
+
+```
+requirement-analyzer (AC lộn xộn) → testcase-generator → testdata-generator → automation-script-writer
+```
+
+## File trong folder
+
+| File          | Mục đích |
+|---------------|---------|
+| `SKILL.md`    | Workflow đầy đủ cho AI |
+| `examples.md` | Ví dụ login, form, API |
+| `GUIDE.md`    | Bản tiếng Anh |
