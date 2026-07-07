@@ -10,7 +10,7 @@ User request → qa-agent-router (Agent) → skills/<name>/SKILL.md → Output
 
 | Layer     | What                                | Where |
 |-----------|-------------------------------------|-------|
-| **Agent** | Intake, triage, route to skill       | `agents/qa-agent-router.md` |
+| **Agent** | Intake, triage, route to skill (router only — not under `skills/`) | `agents/qa-agent-router.md` |
 | **Skill** | Do the work (testcase, plan, estimate, ...) | `skills/<name>/SKILL.md` |
 | **Guide** | Human docs (EN + VI)                 | `skills/<name>/GUIDE.md`, `GUIDE.vi.md` |
 
