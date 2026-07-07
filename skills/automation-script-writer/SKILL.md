@@ -7,7 +7,7 @@ description: Generates test automation scripts from test cases using Playwright,
 
 ## Workflow
 
-1. Confirm framework (detect from repo or ask via orchestrator).
+1. Confirm framework (detect from repo or ask via qa-agent-router).
 2. Read test cases or requirements to automate.
 3. Check existing test structure (folders, helpers, fixtures).
 4. Write scripts with clear arrange-act-assert.

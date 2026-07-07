@@ -1,9 +1,9 @@
 ---
-name: tester-orchestrator
-description: Routes QA requests to the correct skill after reading user prompt and attachments. Single entry point — no sub-agents. Use as the main tester agent.
+name: qa-agent-router
+description: Routes QA requests to the correct skill after reading user prompt and attachments. Single entry point — no sub-agents. Use as the main QA agent router.
 ---
 
-# Tester Orchestrator Skill
+# QA Agent Router Skill
 
 Reference for the agent when routing. **Route to skills only — never to sub-agents.**
 

@@ -1,9 +1,9 @@
-# Tester Agent — Hướng dẫn tiếng Việt
+# QA Agent Router — Hướng dẫn tiếng Việt
 
 ## Mô hình đơn giản
 
 ```
-User nhập yêu cầu → Tester Agent → Skill phù hợp → Kết quả
+User nhập yêu cầu → QA Agent Router → Skill phù hợp → Kết quả
 ```
 
 **Chỉ có 1 Agent.** Không có sub-agent.
@@ -48,7 +48,7 @@ User nhập yêu cầu → Tester Agent → Skill phù hợp → Kết quả
 ## Ví dụ prompt
 
 ```
-Use tester-orchestrator to generate test cases from @user-story-login.md
+Use qa-agent-router to generate test cases from @user-story-login.md
 ```
 
 Agent sẽ tự route sang skill `testcase-generator`.
@@ -60,6 +60,6 @@ Agent sẽ tự route sang skill `testcase-generator`.
 
 ## File liên quan
 
-- Agent (EN): `agents/tester-orchestrator.md`
+- Agent (EN): `agents/qa-agent-router.md`
 - Quy chuẩn: `docs/QA_GLOBAL_RULES.vi.md`
 - Giải thích từng skill: `skills/<tên>/GUIDE.vi.md`

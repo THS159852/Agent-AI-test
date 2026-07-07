@@ -9,11 +9,11 @@ New-Item -ItemType Directory -Force -Path $agentsDst | Out-Null
 New-Item -ItemType Directory -Force -Path $skillsDst | Out-Null
 
 # Only one agent — skills do the work
-Copy-Item -Path (Join-Path $agentsSrc "tester-orchestrator.md") -Destination $agentsDst -Force
+Copy-Item -Path (Join-Path $agentsSrc "qa-agent-router.md") -Destination $agentsDst -Force
 
 Get-ChildItem $skillsSrc -Directory | ForEach-Object {
     Copy-Item -Path $_.FullName -Destination (Join-Path $skillsDst $_.Name) -Recurse -Force
 }
 
-Write-Host "Installed agent:  $agentsDst\tester-orchestrator.md"
+Write-Host "Installed agent:  $agentsDst\qa-agent-router.md"
 Write-Host "Installed skills: $skillsDst"

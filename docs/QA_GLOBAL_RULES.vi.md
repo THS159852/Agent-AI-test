@@ -1,6 +1,6 @@
 # Quy chuẩn QA chung
 
-Tiêu chuẩn dùng chung cho tất cả skill trong hệ thống Tester Agent.
+Tiêu chuẩn dùng chung cho tất cả skill trong hệ thống QA Agent Router.
 
 ## Xử lý requirement
 
@@ -63,7 +63,7 @@ Luôn cân nhắc:
 
 ## Hợp đồng skill
 
-1. `tester-orchestrator` load skill khi request user khớp mục đích.
+1. `qa-agent-router` load skill khi request user khớp mục đích.
 2. Skill chỉ làm **đúng chuyên môn** của nó.
 3. Trả output có cấu trúc để agent trình bày cho user.
 4. Nằm tại `skills/<tên>/SKILL.md`; guide tại `GUIDE.md` / `GUIDE.vi.md`.

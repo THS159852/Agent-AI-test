@@ -5,12 +5,12 @@
 ## Kiến trúc
 
 ```
-User nhập yêu cầu → tester-orchestrator (Agent) → skills/<tên>/SKILL.md → Kết quả
+User nhập yêu cầu → qa-agent-router (Agent) → skills/<tên>/SKILL.md → Kết quả
 ```
 
 | Lớp     | Làm gì                           | Ở đâu |
 |---------|----------------------------------|------|
-| **Agent** | Nhận request, phân loại, chọn skill | `agents/tester-orchestrator.md` |
+| **Agent** | Nhận request, phân loại, chọn skill | `agents/qa-agent-router.md` |
 | **Skill** | Xử lý chuyên môn (testcase, plan, ...) | `skills/<tên>/SKILL.md` |
 | **Guide** | Tài liệu cho người (EN + VI)     | `skills/<tên>/GUIDE.vi.md` |
 
@@ -23,8 +23,8 @@ agents/
 ├── docs/
 │   └── QA_GLOBAL_RULES.md (+ .vi.md)
 ├── agents/
-│   ├── tester-orchestrator.md      ← Chỉ 1 file agent
-│   └── tester-orchestrator.vi.md
+│   ├── qa-agent-router.md      ← Chỉ 1 file agent
+│   └── qa-agent-router.vi.md
 └── skills/
     └── <tên-skill>/
         ├── SKILL.md                ← AI đọc và thực thi
@@ -70,7 +70,7 @@ cd f:\Vietlink\agent\agents
 ## Cách dùng
 
 ```
-Use tester-orchestrator to generate test cases from @requirements.md
+Use qa-agent-router to generate test cases from @requirements.md
 ```
 
 Agent tự route sang skill `testcase-generator`.

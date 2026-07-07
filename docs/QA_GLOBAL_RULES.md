@@ -1,6 +1,6 @@
 # QA Global Rules
 
-Shared standards for all QA skills used by the Tester Agent.
+Shared standards for all QA skills used by the QA Agent Router.
 
 ## Requirement Handling
 
@@ -67,7 +67,7 @@ Always consider:
 
 Each skill:
 
-1. Is loaded by `tester-orchestrator` when the user request matches its purpose.
+1. Is loaded by `qa-agent-router` when the user request matches its purpose.
 2. Completes **only** its specialty.
 3. Returns structured output for the agent to present to the user.
 4. Lives in `skills/<name>/SKILL.md` with human guides in `GUIDE.md` / `GUIDE.vi.md`.

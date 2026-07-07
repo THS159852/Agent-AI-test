@@ -9,7 +9,7 @@ Chuyển requirement thành **testcase QA thực thi được**: có traceabilit
 - User Story sẵn sàng cho QA
 - Cần bộ regression
 - Spec API/UI cần bước kiểm thử
-- Tester agent route sang skill này sau khi đọc prompt
+- QA agent router route sang skill này sau khi đọc prompt
 
 ## Output
 

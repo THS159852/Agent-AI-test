@@ -9,7 +9,7 @@ Turns requirements into **executable QA test cases**: traceable, grouped, with c
 - User story ready for QA
 - Regression pack for a feature
 - API or UI spec needs validation steps
-- Tester agent routes here after reading your prompt
+- QA agent router routes here after reading your prompt
 
 ## Output contract
 

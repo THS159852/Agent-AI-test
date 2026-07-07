@@ -5,12 +5,12 @@ One **Agent** receives requests and routes to the right **Skill**. No sub-agents
 ## Architecture
 
 ```
-User request → tester-orchestrator (Agent) → skills/<name>/SKILL.md → Output
+User request → qa-agent-router (Agent) → skills/<name>/SKILL.md → Output
 ```
 
 | Layer     | What                                | Where |
 |-----------|-------------------------------------|-------|
-| **Agent** | Intake, triage, route to skill       | `agents/tester-orchestrator.md` |
+| **Agent** | Intake, triage, route to skill       | `agents/qa-agent-router.md` |
 | **Skill** | Do the work (testcase, plan, estimate, ...) | `skills/<name>/SKILL.md` |
 | **Guide** | Human docs (EN + VI)                 | `skills/<name>/GUIDE.md`, `GUIDE.vi.md` |
 
@@ -24,8 +24,8 @@ agents/
 │   ├── QA_GLOBAL_RULES.md
 │   └── QA_GLOBAL_RULES.vi.md
 ├── agents/
-│   ├── tester-orchestrator.md      ← Only agent file
-│   └── tester-orchestrator.vi.md
+│   ├── qa-agent-router.md      ← Only agent file
+│   └── qa-agent-router.vi.md
 └── skills/
     └── <skill-name>/
         ├── SKILL.md
@@ -63,7 +63,7 @@ Copies **one agent** + all skills to `~/.cursor/`.
 ## Usage
 
 ```
-Use tester-orchestrator to generate test cases from @requirements.md
+Use qa-agent-router to generate test cases from @requirements.md
 ```
 
 The agent reads your prompt, routes to `testcase-generator` skill, and returns results.
