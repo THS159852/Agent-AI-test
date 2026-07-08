@@ -67,6 +67,10 @@ Positive · Negative · Boundary · Validation · Exception · Permission/Role �
 
 ### Step 4: Write test cases
 
+#### Language rule (mandatory)
+
+**Every field of every test case must be written in English** — Title, Preconditions, Test Data, Steps, **Expected Result**, Test Type, and any notes. Never write Expected Result (or any other column) in Vietnamese, even if the source requirement is in Vietnamese. Translate requirement content into English when authoring cases.
+
 #### Title rules (mandatory)
 
 - **Language:** English only
@@ -102,7 +106,7 @@ Use project convention if user specifies one.
 | **Requirement Ref**| US-xxx / AC-n / BR-n |
 | **Test Data**      | Concrete values (not "valid email" — use `user@test.com`) |
 | **Steps**          | Numbered; one action per step |
-| **Expected Result**| Observable: exact message, URL, status code, DB/UI state |
+| **Expected Result**| **English only.** Observable: exact message, URL, status code, DB/UI state |
 | **Auto Candidate** | Yes / No — Yes for stable P0/P1 repeatable cases |
 
 #### Steps format
@@ -144,6 +148,7 @@ Organize output by module or AC:
 Every deliverable must pass:
 
 - [ ] Every title starts with **Verify** and is in English
+- [ ] Every field — including **Expected Result** — is in English (no Vietnamese)
 - [ ] Every case maps to a Requirement Ref (or `[Derived]`)
 - [ ] Steps are reproducible by another tester without guessing
 - [ ] Expected results are specific (no "works correctly", "OK", "as expected")
@@ -178,7 +183,7 @@ Every deliverable must pass:
 | Avoid                          | Do instead |
 |-------------------------------|------------|
 | Title without Verify           | Always prefix Verify |
-| Vietnamese in case fields      | English only in table |
+| Vietnamese in any field (esp. Expected Result) | English only in every column |
 | Vague expected result          | Exact message, code, URL, state |
 | One case for 5 AC              | Split per AC/condition |
 | Invented max length "50 chars" | Ask in Questions or mark Assumption |

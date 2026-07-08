@@ -29,7 +29,7 @@ Turns requirements into **executable QA test cases**: traceable, grouped, with c
 Verify <subject> <expected outcome>
 ```
 
-All English. All titles start with **Verify**. See [examples.md](examples.md).
+All titles start with **Verify**. **Every column — Title, Steps, Expected Result, etc. — must be in English**, even when the source requirement is in Vietnamese. See [examples.md](examples.md).
 
 ## Test design techniques
 

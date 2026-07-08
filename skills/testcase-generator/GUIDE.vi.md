@@ -31,6 +31,7 @@ Verify <đối tượng> <kết quả mong đợi>
 
 - Tiếng **Anh**
 - Bắt đầu **Verify**
+- **Toàn bộ các cột — Title, Steps, Expected Result, ... — đều phải viết bằng tiếng Anh**, kể cả khi yêu cầu gốc bằng tiếng Việt
 - Ví dụ đầy đủ: [examples.md](examples.md)
 
 ## Kỹ thuật thiết kế test
