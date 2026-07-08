@@ -9,15 +9,15 @@ Turns requirements into **executable QA test cases**: traceable, grouped, with c
 - User story ready for QA
 - Regression pack for a feature
 - API or UI spec needs validation steps
-- QA agent router routes here after reading your prompt
+- Tester agent routes here after reading your prompt
 
 ## Output contract
 
 | Deliverable | Format |
 |-------------|--------|
-| Test cases  | Markdown table (see columns below) |
-| Coverage    | Summary + matrix + gaps |
-| Gaps        | Assumptions / Questions / Risks |
+| Test cases | Markdown table (see columns below) |
+| Coverage | Summary + matrix + gaps |
+| Gaps | Assumptions / Questions / Risks |
 
 ### Standard columns
 
@@ -33,21 +33,21 @@ All titles start with **Verify**. **Every column — Title, Steps, Expected Resu
 
 ## Test design techniques
 
-| Technique                 | Use for |
-|--------------------------|---------|
+| Technique | Use for |
+|-----------|---------|
 | Equivalence partitioning | Valid vs invalid input classes |
-| Boundary values          | Min, max, empty, null |
-| Decision table           | Multi-condition business rules |
-| State transition         | Status workflows |
+| Boundary values | Min, max, empty, null |
+| Decision table | Multi-condition business rules |
+| State transition | Status workflows |
 
 ## Priority
 
 | Level | Typical content |
 |-------|-----------------|
-| P0    | Happy path, security, data loss, auth |
-| P1    | Main negatives, validations, boundaries |
-| P2    | Secondary flows |
-| P3    | Cosmetic / edge nice-to-have |
+| P0 | Happy path, security, data loss, auth |
+| P1 | Main negatives, validations, boundaries |
+| P2 | Secondary flows |
+| P3 | Cosmetic / edge nice-to-have |
 
 ## Export tips
 
@@ -76,8 +76,8 @@ requirement-analyzer (if AC messy) → testcase-generator → testdata-generator
 
 ## Files
 
-| File          | Purpose |
-|---------------|---------|
-| `SKILL.md`    | Full workflow for AI |
+| File | Purpose |
+|------|---------|
+| `SKILL.md` | Full workflow for AI |
 | `examples.md` | Login, form, API samples |
 | `GUIDE.vi.md` | Vietnamese guide |

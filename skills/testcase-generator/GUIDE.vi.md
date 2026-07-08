@@ -9,15 +9,15 @@ Chuyển requirement thành **testcase QA thực thi được**: có traceabilit
 - User Story sẵn sàng cho QA
 - Cần bộ regression
 - Spec API/UI cần bước kiểm thử
-- QA agent router route sang skill này sau khi đọc prompt
+- Tester agent route sang skill này sau khi đọc prompt
 
 ## Output
 
 | Thành phần | Nội dung |
 |------------|----------|
-| Testcase   | Bảng markdown (11 cột chuẩn) |
-| Coverage   | Summary + ma trận + gaps |
-| Thiếu sót  | Assumptions / Questions / Risks |
+| Testcase | Bảng markdown (11 cột chuẩn) |
+| Coverage | Summary + ma trận + gaps |
+| Thiếu sót | Assumptions / Questions / Risks |
 
 ### Cột chuẩn
 
@@ -36,28 +36,28 @@ Verify <đối tượng> <kết quả mong đợi>
 
 ## Kỹ thuật thiết kế test
 
-| Kỹ thuật                  | Dùng khi |
-|--------------------------|----------|
+| Kỹ thuật | Dùng khi |
+|----------|----------|
 | Equivalence partitioning | Phân lớp input hợp lệ / không hợp lệ |
-| Boundary values          | Min, max, empty, null |
-| Decision table           | Rule nhiều điều kiện (giảm giá, phê duyệt) |
-| State transition         | Luồng trạng thái Draft → Approved |
+| Boundary values | Min, max, empty, null |
+| Decision table | Rule nhiều điều kiện (giảm giá, phê duyệt) |
+| State transition | Luồng trạng thái Draft → Approved |
 
 ## Mức ưu tiên
 
 | Mức | Nội dung thường gặp |
 |-----|---------------------|
-| P0  | Happy path, bảo mật, mất dữ liệu, auth |
-| P1  | Negative chính, validation, boundary |
-| P2  | Luồng phụ |
-| P3  | Cosmetic |
+| P0 | Happy path, bảo mật, mất dữ liệu, auth |
+| P1 | Negative chính, validation, boundary |
+| P2 | Luồng phụ |
+| P3 | Cosmetic |
 
 ## Cột mới so với bản cũ
 
-| Cột             | Ý nghĩa |
-|-----------------|---------|
-| **Module**      | Nhóm theo feature/màn hình |
-| **Test Data**   | Giá trị cụ thể (`user@test.com`, không chỉ "email hợp lệ") |
+| Cột | Ý nghĩa |
+|-----|---------|
+| **Module** | Nhóm theo feature/màn hình |
+| **Test Data** | Giá trị cụ thể (`user@test.com`, không chỉ "email hợp lệ") |
 | **Auto Candidate** | Yes/No — case nào nên automate |
 
 ## Checklist trước khi giao
@@ -82,8 +82,8 @@ requirement-analyzer (AC lộn xộn) → testcase-generator → testdata-genera
 
 ## File trong folder
 
-| File          | Mục đích |
-|---------------|---------|
-| `SKILL.md`    | Workflow đầy đủ cho AI |
+| File | Mục đích |
+|------|----------|
+| `SKILL.md` | Workflow đầy đủ cho AI |
 | `examples.md` | Ví dụ login, form, API |
-| `GUIDE.md`    | Bản tiếng Anh |
+| `GUIDE.md` | Bản tiếng Anh |

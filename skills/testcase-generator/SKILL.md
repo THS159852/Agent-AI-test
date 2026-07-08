@@ -23,16 +23,16 @@ Progress:
 
 Extract and list before writing any test case:
 
-| Item                    | Notes |
-|-------------------------|------|
-| Feature / module         | Used for grouping and ID prefix |
-| Actors / roles           | Each role → permission tests |
-| Preconditions            | Shared setup reused across cases |
-| Acceptance criteria      | Numbered; primary traceability source |
-| Business rules           | If/then rules → decision-table candidates |
-| Validations              | Field rules: required, format, min/max |
+| Item | Notes |
+|------|-------|
+| Feature / module | Used for grouping and ID prefix |
+| Actors / roles | Each role → permission tests |
+| Preconditions | Shared setup reused across cases |
+| Acceptance criteria | Numbered; primary traceability source |
+| Business rules | If/then rules → decision-table candidates |
+| Validations | Field rules: required, format, min/max |
 | API endpoints / UI screens | Separate API vs UI cases when both exist |
-| Out of scope             | Do NOT write tests for these |
+| Out of scope | Do NOT write tests for these |
 
 If AC are missing, derive **test conditions** from descriptions, mark as `[Derived]`, and add Questions.
 
@@ -40,12 +40,12 @@ If AC are missing, derive **test conditions** from descriptions, mark as `[Deriv
 
 For **each AC**, list conditions before writing cases:
 
-| AC   | Type     | Condition                     | Priority hint |
-|------|----------|-------------------------------|---------------|
-| AC-1 | Positive | Valid input → success          | P0 |
-| AC-1 | Negative | Invalid input → rejected       | P1 |
-| AC-1 | Boundary | Min / max / empty / null       | P1 |
-| AC-1 | Role     | Unauthorized actor blocked     | P0–P1 |
+| AC | Type | Condition | Priority hint |
+|----|------|-----------|---------------|
+| AC-1 | Positive | Valid input → success | P0 |
+| AC-1 | Negative | Invalid input → rejected | P1 |
+| AC-1 | Boundary | Min / max / empty / null | P1 |
+| AC-1 | Role | Unauthorized actor blocked | P0–P1 |
 
 One test case = **one main verification**. Split combined scenarios.
 
@@ -53,13 +53,13 @@ One test case = **one main verification**. Split combined scenarios.
 
 Apply what fits the requirement:
 
-| Technique                     | When to use |
-|------------------------------|-------------|
+| Technique | When to use |
+|-----------|-------------|
 | **Equivalence partitioning** | Input fields with valid/invalid classes |
-| **Boundary value analysis**  | Min, max, min−1, max+1, empty, null, whitespace |
-| **Decision table**           | Multiple conditions → different outcomes (e.g. discount rules) |
-| **State transition**         | Status flows: Draft → Submitted → Approved → Rejected |
-| **Pairwise**                 | Many optional parameters — reduce combinations, note in summary |
+| **Boundary value analysis** | Min, max, min−1, max+1, empty, null, whitespace |
+| **Decision table** | Multiple conditions → different outcomes (e.g. discount rules) |
+| **State transition** | Status flows: Draft → Submitted → Approved → Rejected |
+| **Pairwise** | Many optional parameters — reduce combinations, note in summary |
 
 **Coverage types** (skip if N/A, note in summary):
 
@@ -78,14 +78,14 @@ Positive · Negative · Boundary · Validation · Exception · Permission/Role �
 - **Pattern:** `Verify <subject> <expected outcome>`
 - **One behavior per title** — no "and" chaining unrelated checks
 
-| Type        | Title pattern | Example |
-|-------------|---------------|---------|
-| Happy path  | Verify \<actor\> can \<action\> when \<valid condition\> | Verify user can log in with valid credentials |
-| Negative    | Verify \<action\> fails when \<invalid condition\> | Verify login fails when password is incorrect |
-| Validation  | Verify error is shown when \<field\> is \<invalid state\> | Verify error is shown when email format is invalid |
-| Permission  | Verify \<role\> cannot \<restricted action\> | Verify guest cannot access admin settings |
-| API         | Verify \<METHOD\> \<endpoint\> returns \<code\> when \<condition\> | Verify POST /orders returns 400 when quantity is zero |
-| UI          | Verify \<element/state\> is displayed when \<condition\> | Verify success message is displayed after form submission |
+| Type | Title pattern | Example |
+|------|---------------|---------|
+| Happy path | Verify \<actor\> can \<action\> when \<valid condition\> | Verify user can log in with valid credentials |
+| Negative | Verify \<action\> fails when \<invalid condition\> | Verify login fails when password is incorrect |
+| Validation | Verify error is shown when \<field\> is \<invalid state\> | Verify error is shown when email format is invalid |
+| Permission | Verify \<role\> cannot \<restricted action\> | Verify guest cannot access admin settings |
+| API | Verify \<METHOD\> \<endpoint\> returns \<code\> when \<condition\> | Verify POST /orders returns 400 when quantity is zero |
+| UI | Verify \<element/state\> is displayed when \<condition\> | Verify success message is displayed after form submission |
 
 #### ID convention
 
@@ -100,13 +100,13 @@ Use project convention if user specifies one.
 | ID | Module | Requirement Ref | Title | Preconditions | Test Data | Steps | Expected Result | Priority | Test Type | Auto Candidate |
 |----|--------|-----------------|-------|---------------|-----------|-------|-----------------|----------|-----------|----------------|
 
-| Column             | Rule |
-|--------------------|------|
-| **Module**         | Feature or screen name |
-| **Requirement Ref**| US-xxx / AC-n / BR-n |
-| **Test Data**      | Concrete values (not "valid email" — use `user@test.com`) |
-| **Steps**          | Numbered; one action per step |
-| **Expected Result**| **English only.** Observable: exact message, URL, status code, DB/UI state |
+| Column | Rule |
+|--------|------|
+| **Module** | Feature or screen name |
+| **Requirement Ref** | US-xxx / AC-n / BR-n |
+| **Test Data** | Concrete values (not "valid email" — use `user@test.com`) |
+| **Steps** | Numbered; one action per step |
+| **Expected Result** | **English only.** Observable: exact message, URL, status code, DB/UI state |
 | **Auto Candidate** | Yes / No — Yes for stable P0/P1 repeatable cases |
 
 #### Steps format
@@ -180,15 +180,15 @@ Every deliverable must pass:
 
 ## Anti-patterns
 
-| Avoid                          | Do instead |
-|-------------------------------|------------|
-| Title without Verify           | Always prefix Verify |
+| Avoid | Do instead |
+|-------|------------|
+| Title without Verify | Always prefix Verify |
 | Vietnamese in any field (esp. Expected Result) | English only in every column |
-| Vague expected result          | Exact message, code, URL, state |
-| One case for 5 AC              | Split per AC/condition |
+| Vague expected result | Exact message, code, URL, state |
+| One case for 5 AC | Split per AC/condition |
 | Invented max length "50 chars" | Ask in Questions or mark Assumption |
-| Duplicate login happy path ×3  | One P0 + role variants if needed |
-| Steps: "Perform login"         | Numbered atomic actions with data |
+| Duplicate login happy path ×3 | One P0 + role variants if needed |
+| Steps: "Perform login" | Numbered atomic actions with data |
 
 ## Examples
 
