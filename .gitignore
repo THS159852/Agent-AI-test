@@ -20,3 +20,8 @@ credentials.json
 
 # Local Cursor install copies (if ever created inside repo)
 .cursor/
+
+# MCP runtime artifacts
+node_modules/
+browser-check-reports/
+**/evidences/

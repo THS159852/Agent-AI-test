@@ -41,6 +41,8 @@ User nhập yêu cầu → QA Agent Router → Skill phù hợp → Kết quả
 | Estimate effort        | `estimate-planner` |
 | Exploratory testing    | `exploratory-tester` |
 | Test API              | `api-testing` |
+| Kiểm tra URL bằng browser | `browser-url-check` |
+| Sinh tài liệu test từ browser | `browser-document-generator` |
 | Sinh test data        | `testdata-generator` |
 | Phân tích rủi ro      | `risk-analyzer` |
 | Chiến lược regression | `regression-advisor` |
@@ -52,6 +54,12 @@ Use qa-agent-router to generate test cases from @user-story-login.md
 ```
 
 Agent sẽ tự route sang skill `testcase-generator`.
+
+Chuỗi chuẩn khi tester muốn tạo testcase từ website:
+
+```text
+browser-url-check → browser-document-generator → testcase-generator
+```
 
 ## Quy tắc testcase
 

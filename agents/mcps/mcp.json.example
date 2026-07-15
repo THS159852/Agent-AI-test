@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "playwright-browser-check": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:/Vietlink/agent/agents/agents/mcps/mcp-playwright-browser-check/node_modules/tsx/dist/cli.mjs",
+        "F:/Vietlink/agent/agents/agents/mcps/mcp-playwright-browser-check/src/server.ts"
+      ],
+      "cwd": "F:/Vietlink/agent/agents/agents/mcps/mcp-playwright-browser-check"
+    }
+  }
+}

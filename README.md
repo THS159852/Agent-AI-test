@@ -49,6 +49,8 @@ agents/
 | risk-analyzer           | QA risk register |
 | testdata-generator      | Test data sets |
 | api-testing             | API test design |
+| browser-url-check       | Explore and test URLs with Playwright MCP |
+| browser-document-generator | Convert browser runs into testcase-ready documents |
 | regression-advisor      | Regression strategy |
 
 ## Install in Cursor

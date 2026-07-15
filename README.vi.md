@@ -58,6 +58,8 @@ agents/
 | risk-analyzer          | Phân tích rủi ro |
 | testdata-generator     | Sinh test data |
 | api-testing            | Test API |
+| browser-url-check      | Khám phá và kiểm tra URL bằng Playwright MCP |
+| browser-document-generator | Chuyển kết quả browser thành tài liệu sẵn sàng sinh testcase |
 | regression-advisor     | Chiến lược regression |
 
 ## Cài đặt

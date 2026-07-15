@@ -50,6 +50,8 @@ If files are referenced with `@path`, read them before routing.
 | Estimate effort         | estimate-planner            | `skills/estimate-planner/SKILL.md` |
 | Exploratory testing     | exploratory-tester          | `skills/exploratory-tester/SKILL.md` |
 | API testing focus       | api-testing                 | `skills/api-testing/SKILL.md` |
+| Browser URL exploration | browser-url-check           | `skills/browser-url-check/SKILL.md` |
+| Browser test document   | browser-document-generator  | `skills/browser-document-generator/SKILL.md` |
 | Test data               | testdata-generator          | `skills/testdata-generator/SKILL.md` |
 | Risk analysis           | risk-analyzer               | `skills/risk-analyzer/SKILL.md` |
 | Regression strategy     | regression-advisor          | `skills/regression-advisor/SKILL.md` |
@@ -63,6 +65,12 @@ requirement-analyzer → scope-analyzer → risk-analyzer → test-plan-generato
 ```
 
 Skip steps the user did not ask for.
+
+For browser-driven testcase preparation, run:
+
+```
+browser-url-check → browser-document-generator → testcase-generator
+```
 
 ## Step 3: Execute the skill
 
