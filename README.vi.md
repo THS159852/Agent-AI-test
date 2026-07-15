@@ -24,7 +24,15 @@ agents/
 │   └── QA_GLOBAL_RULES.md (+ .vi.md)
 ├── agents/
 │   ├── qa-agent-router.md      ← Chỉ 1 file agent
-│   └── qa-agent-router.vi.md
+│   ├── qa-agent-router.vi.md
+│   └── mcps/
+│       ├── mcp.json.example
+│       └── mcp-playwright-browser-check/
+│           ├── package.json
+│           ├── src/
+│           └── browser-check-reports/  ← Tự sinh local, Git bỏ qua
+├── .cursor/                    ← Người dùng tạo local, Git bỏ qua
+│   └── mcp.json
 └── skills/
     └── <tên-skill>/
         ├── SKILL.md                ← AI đọc và thực thi
@@ -68,6 +76,149 @@ agents/
 cd f:\Vietlink\agent\agents
 .\install.ps1
 ```
+
+## Setup Playwright Browser Check MCP cho người dùng mới
+
+Source code MCP được commit lên Git. Hai đường dẫn local sau được chủ động loại khỏi Git:
+
+| Đường dẫn | Cách tạo | Lý do không commit |
+|-----------|----------|---------------------|
+| `.cursor/mcp.json` | Người dùng tạo theo hướng dẫn bên dưới | Chứa đường dẫn tuyệt đối riêng của từng máy |
+| `browser-check-reports/` | MCP tự tạo sau lần scan đầu tiên | Chứa report, screenshot, video và evidence local |
+
+Bạn **không cần tạo thủ công** folder `browser-check-reports/`.
+
+### Bước 1: Cài phần mềm cần thiết
+
+Cần có:
+
+- [Node.js](https://nodejs.org/) 18 trở lên
+- Cursor có hỗ trợ MCP
+- Git
+
+Kiểm tra Node.js:
+
+```powershell
+node --version
+npm --version
+```
+
+### Bước 2: Cài dependency MCP và Chromium
+
+Chạy từ thư mục gốc repo:
+
+```powershell
+cd agents/mcps/mcp-playwright-browser-check
+npm install
+npx playwright install chromium
+cd ../../..
+```
+
+Lệnh này tạo `node_modules/` local; folder này được Git bỏ qua.
+
+### Bước 3: Tạo cấu hình MCP cho project
+
+Tạo folder và file sau tại thư mục gốc repo:
+
+```text
+.cursor/
+└── mcp.json
+```
+
+Có thể tham khảo `agents/mcps/mcp.json.example`. Trước tiên, lấy đường dẫn tuyệt đối trên máy:
+
+```powershell
+(Get-Command node).Source
+(Resolve-Path "agents/mcps/mcp-playwright-browser-check").Path
+```
+
+Tạo `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "playwright-browser-check": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:/DUONG_DAN_TUYET_DOI_DEN_REPO/agents/mcps/mcp-playwright-browser-check/node_modules/tsx/dist/cli.mjs",
+        "C:/DUONG_DAN_TUYET_DOI_DEN_REPO/agents/mcps/mcp-playwright-browser-check/src/server.ts"
+      ],
+      "cwd": "C:/DUONG_DAN_TUYET_DOI_DEN_REPO/agents/mcps/mcp-playwright-browser-check"
+    }
+  }
+}
+```
+
+Thay:
+
+- `command` bằng kết quả của `(Get-Command node).Source`
+- toàn bộ `C:/DUONG_DAN_TUYET_DOI_DEN_REPO` bằng đường dẫn repo đã clone
+
+Quy tắc JSON:
+
+- Dùng `/` trong đường dẫn hoặc escape dấu `\` thành `\\`
+- Không để dấu phẩy thừa ở phần tử cuối
+- Đặt `.cursor/mcp.json` đúng tại thư mục gốc repo
+
+### Bước 4: Cài agent và skills vào Cursor
+
+```powershell
+.\install.ps1
+```
+
+Lệnh này cài QA router và toàn bộ skill, bao gồm:
+
+- `browser-url-check`
+- `browser-document-generator`
+
+### Bước 5: Reload và kiểm tra Cursor
+
+1. Trong Cursor, nhấn `Ctrl+Shift+P`
+2. Chạy **Developer: Reload Window**
+3. Mở **Cursor Settings → MCP**
+4. Kiểm tra `playwright-browser-check` được bật và có trạng thái màu xanh
+
+Nếu trạng thái màu đỏ:
+
+1. Chọn **Show Output**
+2. Kiểm tra đường dẫn Node.js và repo trong `.cursor/mcp.json`
+3. Chạy lại `npm install` và `npx playwright install chromium`
+
+### Bước 6: Chạy browser check đầu tiên
+
+Trong Cursor Agent chat:
+
+```text
+Check browser https://example.com and generate test documentation
+```
+
+MCP sẽ mở Chromium fullscreen, thực hiện tuần tự các thao tác giống người dùng và đóng từng browser sau khi kiểm tra xong chức năng.
+
+Sau lần chạy, report tự động được tạo:
+
+```text
+agents/mcps/mcp-playwright-browser-check/browser-check-reports/
+└── example.com/
+    ├── baseline.json
+    └── run 1 - <datetime>/
+        ├── summary-en.md
+        ├── summary-vi.md
+        ├── bug-report-en.md
+        ├── bug-report-vi.md
+        ├── failed-requests-curl.txt
+        ├── browser-test-document.md
+        └── evidences/
+```
+
+Dùng `browser-test-document.md` để sinh testcase:
+
+```text
+Generate test cases from @<reportDir>/browser-test-document.md
+```
+
+### Bước 7: Xử lý authentication
+
+Nếu URL yêu cầu HTTP authentication hoặc có form login HTML, agent trả `auth_required` và hỏi username/password. Credentials không được ghi vào report. Chỉ nên sử dụng tài khoản test.
 
 ## Cách dùng
 
