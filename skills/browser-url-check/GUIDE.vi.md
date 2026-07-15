@@ -173,13 +173,35 @@ Playwright tự gửi credentials qua `httpCredentials` — không cần popup b
 
 **Lần gọi lại:** Cùng format như HTTP auth — gửi `url`, `username`, `password`. MCP sẽ tự điền form và submit.
 
-### 4.3. Quy tắc bảo mật
+### 4.3. OAuth/SSO bằng session đã đăng nhập
+
+Áp dụng cho Google, Microsoft và các nhà cung cấp SSO không phù hợp với cách tự động
+điền username/password:
+
+1. Gọi `capture_browser_session` với URL login của ứng dụng và `sessionName`.
+2. Người dùng hoàn tất đăng nhập thủ công trong browser đang hiển thị.
+3. MCP lưu cookies và local storage vào `.auth-sessions/` trên máy local.
+4. Gọi `check_browser_url` với `url` và cùng `sessionName`.
+
+```json
+{
+  "url": "https://example.com/login",
+  "sessionName": "google-test"
+}
+```
+
+Có thể truyền `successUrlContains` cho `capture_browser_session` nếu biết URL sau đăng
+nhập, ví dụ `"/dashboard"`. Khi session hết hạn, capture lại cùng tên để ghi đè.
+
+### 4.4. Quy tắc bảo mật
 
 | Quy tắc | Giải thích |
 |---------|------------|
 | Không tự bịa credentials | Agent chỉ dùng username/password do user cung cấp |
 | Không lưu password vào file báo cáo | Report không chứa password |
 | Không log password trong summary | Agent không lặp lại password khi tóm tắt |
+| Không hỏi password Google/Microsoft | OAuth/SSO phải đăng nhập thủ công và lưu session |
+| Không commit session | `.auth-sessions/` chứa cookie nhạy cảm và chỉ lưu local |
 | Chỉ dùng tài khoản test | Không dùng tài khoản production hoặc mật khẩu quan trọng |
 
 ---

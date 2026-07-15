@@ -78,6 +78,7 @@ The MCP source is committed to Git. Two local paths are intentionally excluded:
 |------|-------------------|-------------------|
 | `.cursor/mcp.json` | Create manually using the steps below | Contains machine-specific absolute paths |
 | `browser-check-reports/` | Created automatically after the first scan | Contains local reports, screenshots, videos, and runtime evidence |
+| `.auth-sessions/` | Created by OAuth/SSO session capture | Contains sensitive local cookies and browser storage |
 
 You do **not** need to create `browser-check-reports/` manually.
 
@@ -211,7 +212,17 @@ Generate test cases from @<reportDir>/browser-test-document.md
 
 ### 7. Authentication
 
-If the URL requires HTTP authentication or an HTML login form, the agent returns `auth_required` and asks for a username and password. Credentials are not written to reports. Use test accounts only.
+Both authentication methods remain available:
+
+- **Username/password:** HTTP Basic/Digest and regular HTML login forms. The agent
+  returns `auth_required`, asks for test credentials, and retries the scan.
+- **Saved browser session:** Google, Microsoft, and other OAuth/SSO flows. The agent
+  opens a visible browser through `capture_browser_session`; finish login manually once,
+  then future checks reuse the named session through `check_browser_url`.
+
+Passwords are not written to reports. Saved sessions are stored locally under
+`.auth-sessions/`, are ignored by Git, and must never be shared or committed. When a
+session expires, capture it again using the same session name.
 
 ## Usage
 

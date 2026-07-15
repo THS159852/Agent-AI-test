@@ -1,6 +1,6 @@
 ---
 name: browser-url-check
-description: Checks URLs in a real browser using the Playwright MCP server, handles HTTP and login-form authentication, crawls same-origin pages, detects new feature URIs, and saves scan reports. Use when the user sends a URL to inspect, verify, open, test, or check browser behavior.
+description: Checks URLs in a real browser using the Playwright MCP server, handles HTTP/login-form credentials and reusable OAuth/SSO sessions, crawls same-origin pages, detects new feature URIs, and saves scan reports. Use when the user sends a URL to inspect, verify, open, test, or check browser behavior.
 ---
 
 # Browser URL Check
@@ -36,10 +36,12 @@ Optional input:
 
 If `status` is `auth_required`:
 
-1. Ask the user for `username` and `password`.
-2. Do not invent credentials.
-3. Do not store, log, or repeat the password in summaries.
-4. Call `check_browser_url` again with `url`, `username`, and `password`.
+1. Read `authType` before asking the user for anything.
+2. For HTTP auth or `login_form`, ask for `username` and `password`.
+3. For `oauth_session`, ask the user for a local `sessionName` (default `default`), call `capture_browser_session`, and tell them to finish Google/Microsoft/SSO login in the visible browser.
+4. After session capture returns `ok`, call `check_browser_url` again with `url` and `sessionName`.
+5. Do not invent credentials.
+6. Do not store, log, or repeat passwords or session contents in summaries.
 
 Auth types:
 
@@ -47,6 +49,23 @@ Auth types:
 |------------|---------|
 | HTTP `WWW-Authenticate` | HTTP Basic/Digest auth |
 | `login_form` | HTML login form on the page |
+| `oauth_session` | OAuth/SSO login; capture and reuse a local Playwright session |
+
+Credential retry:
+
+```json
+{ "url": "https://example.com", "username": "tester", "password": "<secret>" }
+```
+
+OAuth/SSO flow:
+
+```text
+capture_browser_session({ url, sessionName })
+→ user logs in manually in visible browser
+→ check_browser_url({ url, sessionName })
+```
+
+Use `successUrlContains` when the authenticated landing URL is known and automatic completion detection needs a clear signal.
 
 If no auth is required, continue without asking for credentials.
 
@@ -116,7 +135,10 @@ Baseline file:
 
 Server name: `playwright-browser-check`
 
-Tool: `check_browser_url`
+Tools:
+
+- `check_browser_url`
+- `capture_browser_session`
 
 Report root:
 
@@ -129,18 +151,21 @@ Report root:
 **Agent:**
 
 1. Call `check_browser_url` with `{ "url": "https://example.com" }`.
-2. If auth is required, ask:
+2. If credential auth is required, ask:
 
 ```text
 URL nay yeu cau authentication. Ban hay gui username va password de minh kiem tra tiep.
 ```
 
-3. Retry with credentials if provided.
-4. Reply with scan summary, new feature URIs, and `reportDir`.
+3. If OAuth/SSO auth is required, capture a named browser session while the user logs in manually.
+4. Retry with credentials or `sessionName`, depending on `authType`.
+5. Reply with scan summary, new feature URIs, and `reportDir`.
 
 ## Rules
 
 - Always use the MCP tool; do not simulate browser checks.
+- Never request a Google/Microsoft OAuth password in chat; use `capture_browser_session`.
+- Session files contain sensitive cookies, remain local under `.auth-sessions/`, and must never be committed or attached to reports.
 - Crawl scope is same-origin only; external links are not followed.
 - First scan may show many URIs as "new"; later scans only list truly new paths.
 - Prefer concise output; attach URI lists only when useful.

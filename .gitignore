@@ -24,4 +24,5 @@ credentials.json
 # MCP runtime artifacts
 node_modules/
 browser-check-reports/
+.auth-sessions/
 **/evidences/

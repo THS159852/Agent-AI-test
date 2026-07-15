@@ -3,7 +3,7 @@
 Check URLs in a real browser (Playwright) via MCP. Use when you need to verify access, crawl same-origin pages, and detect new feature URIs.
 
 **MCP server:** `playwright-browser-check`  
-**Tool:** `check_browser_url`
+**Tools:** `check_browser_url`, `capture_browser_session`
 
 See [GUIDE.vi.md](GUIDE.vi.md) for the full Vietnamese guide.
 
@@ -33,11 +33,19 @@ The system does **not** show a browser popup for credentials. Instead:
 |------|-----------|--------------|
 | HTTP Basic/Digest | `401` + `WWW-Authenticate` header | `{ url, username, password }` |
 | Login form | `input[type="password"]` on page | `{ url, username, password }` |
+| OAuth/SSO session | Google/Microsoft/SSO redirect or button | Capture once, then `{ url, sessionName }` |
+
+For OAuth/SSO, call `capture_browser_session` with the application login URL and a local
+`sessionName`. Complete login manually in the visible browser. The tool saves Playwright
+cookies and local storage under `.auth-sessions/`; later scans reuse them through
+`check_browser_url`. Use `successUrlContains` when the post-login URL is known.
 
 ### Security rules
 
 - Never invent credentials
 - Do not store or log passwords in reports
+- Never ask for a Google/Microsoft OAuth password; use manual session capture
+- Never commit or share `.auth-sessions/` because it contains sensitive cookies
 - Use test accounts only
 
 ---

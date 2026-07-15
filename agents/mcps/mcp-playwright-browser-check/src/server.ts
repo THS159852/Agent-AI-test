@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { chromium, type Page } from "playwright";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
@@ -16,9 +16,11 @@ import type { BaselineFile, PageResult, ScanReport } from "./types.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MCP_ROOT = path.resolve(__dirname, "..");
 const REPORTS_ROOT = path.join(MCP_ROOT, "browser-check-reports");
+const AUTH_SESSIONS_ROOT = path.join(MCP_ROOT, ".auth-sessions");
 
 const DEFAULT_MAX_PAGES = 50;
 const BROWSER_SLOW_MO_MS = 350;
+const DEFAULT_SESSION_WAIT_SECONDS = 180;
 
 const server = new McpServer({
   name: "playwright-browser-check",
@@ -31,6 +33,31 @@ async function launchVisibleBrowser() {
     slowMo: BROWSER_SLOW_MO_MS,
     args: ["--start-maximized", "--start-fullscreen"],
   });
+}
+
+function sanitizeSessionName(sessionName: string): string {
+  const sanitized = sessionName.trim().replace(/[^a-zA-Z0-9._-]/g, "_");
+  if (!sanitized || sanitized === "." || sanitized === "..") {
+    throw new Error("Session name must contain at least one letter or number.");
+  }
+  return sanitized;
+}
+
+function getSessionPath(url: string, sessionName: string): string {
+  return path.join(
+    AUTH_SESSIONS_ROOT,
+    toHostnameFolder(url),
+    `${sanitizeSessionName(sessionName)}.json`
+  );
+}
+
+async function sessionExists(sessionPath: string): Promise<boolean> {
+  try {
+    await access(sessionPath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function normalizeUrl(rawUrl: string): string {
@@ -120,6 +147,40 @@ async function detectLoginForm(page: Page): Promise<boolean> {
     .count();
 
   return usernameCandidates > 0 || passwordInputs > 0;
+}
+
+function isKnownOAuthUrl(url: string): boolean {
+  try {
+    const hostname = new URL(url).hostname.toLowerCase();
+    return [
+      "accounts.google.com",
+      "login.microsoftonline.com",
+      "login.live.com",
+    ].some((authHost) => hostname === authHost || hostname.endsWith(`.${authHost}`));
+  } catch {
+    return false;
+  }
+}
+
+async function detectOAuthLogin(page: Page): Promise<boolean> {
+  if (isKnownOAuthUrl(page.url())) {
+    return true;
+  }
+
+  const oauthControls = page.locator(
+    [
+      'a[href*="accounts.google.com"]',
+      'a[href*="login.microsoftonline.com"]',
+      'a[href*="/oauth" i]',
+      'a[href*="/sso" i]',
+      'button:has-text("Sign in with Google")',
+      'button:has-text("Continue with Google")',
+      'a:has-text("Sign in with Google")',
+      'a:has-text("Continue with Google")',
+    ].join(", ")
+  );
+
+  return (await oauthControls.count()) > 0;
 }
 
 async function trySubmitLoginForm(
@@ -408,6 +469,181 @@ function buildResponse(report: ScanReport) {
 }
 
 server.registerTool(
+  "capture_browser_session",
+  {
+    description:
+      "Open a visible browser for manual OAuth/SSO login, then save Playwright cookies and local storage as a reusable named session.",
+    inputSchema: z.object({
+      url: z.string().url().describe("Application login URL to open"),
+      sessionName: z
+        .string()
+        .min(1)
+        .max(80)
+        .default("default")
+        .describe("Local name used to save and later reuse this session"),
+      successUrlContains: z
+        .string()
+        .optional()
+        .describe("Optional URL text that identifies the authenticated landing page"),
+      timeoutSeconds: z
+        .number()
+        .int()
+        .min(30)
+        .max(600)
+        .optional()
+        .describe("Time allowed for manual login (default 180 seconds)"),
+    }),
+  },
+  async ({ url, sessionName, successUrlContains, timeoutSeconds }) => {
+    if (isKnownOAuthUrl(url)) {
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                status: "error",
+                message:
+                  "Use the application's login URL, not the Google/Microsoft provider URL, so the authenticated return can be detected.",
+                authType: "oauth_session",
+                sessionName: sanitizeSessionName(sessionName),
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    }
+
+    const browser = await launchVisibleBrowser();
+    const context = await browser.newContext({ viewport: null });
+    const page = await context.newPage();
+    const entryOrigin = new URL(url).origin;
+    const waitMs = (timeoutSeconds ?? DEFAULT_SESSION_WAIT_SECONDS) * 1000;
+    const startedAt = Date.now();
+
+    try {
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
+      const initialUrl = page.url();
+      const initialLoginForm = await detectLoginForm(page);
+      let externalOriginSeen = false;
+      let authenticatedPage: Page | undefined;
+
+      while (Date.now() - startedAt < waitMs) {
+        const openPages = context
+          .pages()
+          .filter((candidate) => !candidate.isClosed() && candidate.url() !== "about:blank");
+        const hasActiveExternalPage = openPages.some((candidate) => {
+          try {
+            return new URL(candidate.url()).origin !== entryOrigin;
+          } catch {
+            return false;
+          }
+        });
+        externalOriginSeen ||= hasActiveExternalPage;
+
+        for (const candidate of openPages) {
+          const candidateUrl = candidate.url();
+
+          try {
+            if (new URL(candidateUrl).origin !== entryOrigin) {
+              continue;
+            }
+
+            const matchesExplicitSuccess =
+              Boolean(successUrlContains) && candidateUrl.includes(successUrlContains!);
+            const returnedFromLogin =
+              (externalOriginSeen && !hasActiveExternalPage) ||
+              initialLoginForm ||
+              candidateUrl !== initialUrl;
+            const stillHasLoginForm = await detectLoginForm(candidate).catch(() => true);
+
+            if (matchesExplicitSuccess || (returnedFromLogin && !stillHasLoginForm)) {
+              authenticatedPage = candidate;
+              break;
+            }
+          } catch {
+            // Ignore transient browser pages and malformed URLs during OAuth redirects.
+          }
+        }
+
+        if (authenticatedPage) {
+          break;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+
+      if (!authenticatedPage) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify(
+                {
+                  status: "error",
+                  message:
+                    "Timed out before authenticated login completion was detected. Retry and finish login in the visible browser.",
+                  authType: "oauth_session",
+                  sessionName: sanitizeSessionName(sessionName),
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      }
+
+      const sessionPath = getSessionPath(url, sessionName);
+      await mkdir(path.dirname(sessionPath), { recursive: true });
+      await context.storageState({ path: sessionPath });
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                status: "ok",
+                message: "Authenticated browser session saved locally.",
+                authType: "oauth_session",
+                sessionName: sanitizeSessionName(sessionName),
+                finalUrl: authenticatedPage.url(),
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                status: "error",
+                message: error instanceof Error ? error.message : String(error),
+                authType: "oauth_session",
+                sessionName,
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    } finally {
+      await context.close().catch(() => undefined);
+      await browser.close().catch(() => undefined);
+    }
+  }
+);
+
+server.registerTool(
   "check_browser_url",
   {
     description:
@@ -416,6 +652,12 @@ server.registerTool(
       url: z.string().url().describe("URL to open and check in the browser"),
       username: z.string().optional().describe("Username for HTTP basic auth or login form"),
       password: z.string().optional().describe("Password for HTTP basic auth or login form"),
+      sessionName: z
+        .string()
+        .min(1)
+        .max(80)
+        .optional()
+        .describe("Named session previously saved by capture_browser_session"),
       maxPages: z
         .number()
         .int()
@@ -425,12 +667,31 @@ server.registerTool(
         .describe("Maximum number of same-origin pages to crawl (default 50)"),
     }),
   },
-  async ({ url, username, password, maxPages }) => {
+  async ({ url, username, password, sessionName, maxPages }) => {
     const scannedAt = new Date().toISOString();
     const maxPagesToScan = maxPages ?? DEFAULT_MAX_PAGES;
     const hostnameFolder = toHostnameFolder(url);
     const runNumber = await getNextRunNumber(hostnameFolder);
     const reportDir = path.join(REPORTS_ROOT, hostnameFolder, createRunFolderName(runNumber));
+    const sessionPath = sessionName ? getSessionPath(url, sessionName) : undefined;
+
+    if (sessionPath && !(await sessionExists(sessionPath))) {
+      const report: ScanReport = {
+        status: "auth_required",
+        message:
+          "Named browser session was not found. Run capture_browser_session and complete login first.",
+        entryUrl: url,
+        authType: "oauth_session",
+        scannedAt,
+        runNumber,
+        pagesScanned: 0,
+        allUris: [],
+        newFeatureUris: [],
+        summary: "A saved browser session is required before browser check can continue.",
+      };
+
+      return buildResponse(report);
+    }
 
     const authProbe = await probeHttpAuth(url);
     if (authProbe.needsAuth && (!username || !password)) {
@@ -454,6 +715,7 @@ server.registerTool(
     const browser = await launchVisibleBrowser();
     const context = await browser.newContext({
       viewport: null,
+      ...(sessionPath ? { storageState: sessionPath } : {}),
       ...(username && password
         ? {
             httpCredentials: {
@@ -487,6 +749,34 @@ server.registerTool(
         };
 
         await writeScanFiles(reportDir, report);
+        return buildResponse(report);
+      }
+
+      const hasOAuthLogin = await detectOAuthLogin(page);
+      const looksLikeLoginPage =
+        isKnownOAuthUrl(page.url()) ||
+        /(?:^|\/)(?:login|sign-in|signin|auth)(?:\/|$)/i.test(new URL(page.url()).pathname);
+      if (hasOAuthLogin && (!sessionPath || looksLikeLoginPage)) {
+        const report: ScanReport = {
+          status: "auth_required",
+          message: sessionPath
+            ? "Saved OAuth/SSO session is missing or expired. Capture the browser session again."
+            : "OAuth/SSO login detected. Run capture_browser_session, complete login manually, then retry with sessionName.",
+          entryUrl: url,
+          finalUrl: page.url(),
+          title: entryResult.title,
+          httpStatus: entryResult.httpStatus,
+          authType: "oauth_session",
+          scannedAt,
+          runNumber,
+          pagesScanned: 0,
+          allUris: [entryResult],
+          newFeatureUris: [],
+          summary: sessionPath
+            ? "Saved OAuth/SSO session must be refreshed."
+            : "A saved OAuth/SSO browser session is required.",
+        };
+
         return buildResponse(report);
       }
 

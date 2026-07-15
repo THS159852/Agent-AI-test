@@ -85,6 +85,7 @@ Source code MCP được commit lên Git. Hai đường dẫn local sau được
 |-----------|----------|---------------------|
 | `.cursor/mcp.json` | Người dùng tạo theo hướng dẫn bên dưới | Chứa đường dẫn tuyệt đối riêng của từng máy |
 | `browser-check-reports/` | MCP tự tạo sau lần scan đầu tiên | Chứa report, screenshot, video và evidence local |
+| `.auth-sessions/` | MCP tạo khi capture OAuth/SSO session | Chứa cookie và browser storage nhạy cảm trên máy local |
 
 Bạn **không cần tạo thủ công** folder `browser-check-reports/`.
 
@@ -218,7 +219,17 @@ Generate test cases from @<reportDir>/browser-test-document.md
 
 ### Bước 7: Xử lý authentication
 
-Nếu URL yêu cầu HTTP authentication hoặc có form login HTML, agent trả `auth_required` và hỏi username/password. Credentials không được ghi vào report. Chỉ nên sử dụng tài khoản test.
+Hệ thống giữ đồng thời hai phương thức:
+
+- **Username/password:** dùng cho HTTP Basic/Digest và form login HTML thông thường.
+  Agent trả `auth_required`, hỏi tài khoản test rồi gọi lại browser check.
+- **Session đã đăng nhập:** dùng cho Google, Microsoft và OAuth/SSO. Agent mở browser
+  hiển thị bằng `capture_browser_session`; người dùng đăng nhập thủ công một lần, sau đó
+  các lần test dùng lại session theo tên qua `check_browser_url`.
+
+Password không được ghi vào report. Session được lưu local trong `.auth-sessions/`, đã
+được Git bỏ qua và không được chia sẻ hoặc commit. Khi session hết hạn, capture lại với
+cùng tên session.
 
 ## Cách dùng
 
