@@ -62,7 +62,7 @@ Ask the agent: "Export testcase as CSV" if you need comma-separated output.
 ## Workflow with other skills
 
 ```
-requirement-analyzer (if AC messy) → testcase-generator → testdata-generator → automation-script-writer
+requirement-analyzer (if AC messy) → testcase-generator → testcase-reviewer → testdata-generator → automation-script-writer
 ```
 
 ## MCP suggestions

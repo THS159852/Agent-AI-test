@@ -22,7 +22,8 @@ agents/
 ├── install.ps1
 ├── docs/
 │   ├── QA_GLOBAL_RULES.md
-│   └── QA_GLOBAL_RULES.vi.md
+│   ├── QA_GLOBAL_RULES.vi.md
+│   └── SKILL_CALL_EXAMPLES.md  ← Copy-paste prompts per skill
 ├── agents/
 │   ├── qa-agent-router.md      ← Only agent file
 │   ├── qa-agent-router.vi.md
@@ -49,6 +50,7 @@ agents/
 | domain-learner          | Learn business domain |
 | requirement-explainer   | Explain requirements plainly |
 | **testcase-generator**  | **Generate test cases (Verify…, English)** |
+| **testcase-reviewer**   | **Review generated test cases (mismatch / screen report)** |
 | automation-script-writer| Write automation scripts |
 | test-plan-generator     | Create test plans |
 | scope-analyzer          | Analyze impact scope |
@@ -226,6 +228,8 @@ session expires, capture it again using the same session name.
 
 ## Usage
 
+See copy-paste prompts for **every skill**: [`docs/SKILL_CALL_EXAMPLES.md`](docs/SKILL_CALL_EXAMPLES.md).
+
 ```
 Use qa-agent-router to generate test cases from @requirements.md
 ```
@@ -243,6 +247,7 @@ Follow skills/testcase-generator/SKILL.md for this user story: ...
 | User request        | Skill chain |
 |--------------------|------------|
 | Generate test cases | testcase-generator |
+| Review generated test cases | testcase-reviewer |
 | Explain requirement | requirement-explainer |
 | Estimate effort     | scope-analyzer → estimate-planner |
 | Full QA pack        | analyzer → scope → plan → testcase → testdata |

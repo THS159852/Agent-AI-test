@@ -77,7 +77,7 @@ Verify <đối tượng> <kết quả mong đợi>
 ## Luồng với skill khác
 
 ```
-requirement-analyzer (AC lộn xộn) → testcase-generator → testdata-generator → automation-script-writer
+requirement-analyzer (AC lộn xộn) → testcase-generator → testcase-reviewer → testdata-generator → automation-script-writer
 ```
 
 ## File trong folder

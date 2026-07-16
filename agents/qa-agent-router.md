@@ -44,6 +44,7 @@ If files are referenced with `@path`, read them before routing.
 | Learn business domain   | domain-learner             | `skills/domain-learner/SKILL.md` |
 | Explain requirement     | requirement-explainer       | `skills/requirement-explainer/SKILL.md` |
 | **Generate test cases** | **testcase-generator**      | `skills/testcase-generator/SKILL.md` |
+| **Review generated test cases** | **testcase-reviewer** | `skills/testcase-reviewer/SKILL.md` |
 | Write automation script | automation-script-writer    | `skills/automation-script-writer/SKILL.md` |
 | Create test plan        | test-plan-generator         | `skills/test-plan-generator/SKILL.md` |
 | Analyze scope / impact  | scope-analyzer              | `skills/scope-analyzer/SKILL.md` |
@@ -61,7 +62,7 @@ If files are referenced with `@path`, read them before routing.
 Run skills **in sequence** — still no sub-agents:
 
 ```
-requirement-analyzer → scope-analyzer → risk-analyzer → test-plan-generator → testcase-generator → testdata-generator
+requirement-analyzer → scope-analyzer → risk-analyzer → test-plan-generator → testcase-generator → testcase-reviewer → testdata-generator
 ```
 
 Skip steps the user did not ask for.
@@ -69,7 +70,7 @@ Skip steps the user did not ask for.
 For browser-driven testcase preparation, run:
 
 ```
-browser-url-check → browser-document-generator → testcase-generator
+browser-url-check → browser-document-generator → testcase-generator → testcase-reviewer
 ```
 
 ## Step 3: Execute the skill
@@ -82,6 +83,7 @@ browser-url-check → browser-document-generator → testcase-generator
 
 - One skill = one specialty per step.
 - Default to `testcase-generator` when user mentions test cases, scenarios, or coverage.
+- Route to `testcase-reviewer` when user asks to review, audit, validate, or check mismatches in **already generated** test cases (or after generation in a full pack).
 - If requirement is unclear before testcase generation, run `requirement-analyzer` skill first.
 - Never invent business rules — skills enforce this too.
 

@@ -35,6 +35,7 @@ User nhập yêu cầu → QA Agent Router → Skill phù hợp → Kết quả
 | Học domain            | `domain-learner` |
 | Giải thích requirement | `requirement-explainer` |
 | **Sinh testcase**     | **`testcase-generator`** |
+| **Review testcase đã sinh** | **`testcase-reviewer`** |
 | Viết script automation | `automation-script-writer` |
 | Lập test plan         | `test-plan-generator` |
 | Phân tích scope       | `scope-analyzer` |
@@ -49,6 +50,8 @@ User nhập yêu cầu → QA Agent Router → Skill phù hợp → Kết quả
 
 ## Ví dụ prompt
 
+Xem đầy đủ cách gọi từng skill: `docs/SKILL_CALL_EXAMPLES.md`
+
 ```
 Use qa-agent-router to generate test cases from @user-story-login.md
 ```
@@ -58,7 +61,7 @@ Agent sẽ tự route sang skill `testcase-generator`.
 Chuỗi chuẩn khi tester muốn tạo testcase từ website:
 
 ```text
-browser-url-check → browser-document-generator → testcase-generator
+browser-url-check → browser-document-generator → testcase-generator → testcase-reviewer
 ```
 
 ## Quy tắc testcase

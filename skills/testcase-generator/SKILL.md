@@ -197,6 +197,7 @@ See [examples.md](examples.md) for full login, form validation, and API samples.
 ## Related skills
 
 - **requirement-analyzer** — load first when AC are messy or incomplete
+- **testcase-reviewer** — after generation, audit mismatches and map findings to screens
 - **testdata-generator** — after cases, generate data sets per Test Data column
 - **automation-script-writer** — automate cases marked Auto Candidate = Yes
 

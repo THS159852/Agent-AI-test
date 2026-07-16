@@ -21,7 +21,8 @@ agents/
 ├── README.md / README.vi.md
 ├── install.ps1
 ├── docs/
-│   └── QA_GLOBAL_RULES.md (+ .vi.md)
+│   ├── QA_GLOBAL_RULES.md (+ .vi.md)
+│   └── SKILL_CALL_EXAMPLES.md  ← Prompt gọi từng skill
 ├── agents/
 │   ├── qa-agent-router.md      ← Chỉ 1 file agent
 │   ├── qa-agent-router.vi.md
@@ -58,6 +59,7 @@ agents/
 | domain-learner         | Học domain nghiệp vụ |
 | requirement-explainer  | Giải thích requirement |
 | **testcase-generator** | **Sinh testcase (Verify, tiếng Anh)** |
+| **testcase-reviewer** | **Review testcase đã sinh (mismatch / theo màn hình)** |
 | automation-script-writer | Viết script automation |
 | test-plan-generator    | Lập test plan |
 | scope-analyzer         | Phân tích scope |
@@ -233,17 +235,25 @@ cùng tên session.
 
 ## Cách dùng
 
+Xem prompt copy-paste cho **từng skill**: [`docs/SKILL_CALL_EXAMPLES.md`](docs/SKILL_CALL_EXAMPLES.md).
+
 ```
 Use qa-agent-router to generate test cases from @requirements.md
 ```
 
 Agent tự route sang skill `testcase-generator`.
 
+Gọi trực tiếp một skill:
+
+```
+Follow skills/testcase-generator/SKILL.md for this user story: ...
+```
 ## Luồng routing
 
 | Yêu cầu          | Skill |
 |------------------|-------|
 | Sinh testcase    | testcase-generator |
+| Review testcase đã sinh | testcase-reviewer |
 | Giải thích requirement | requirement-explainer |
 | Estimate         | scope-analyzer → estimate-planner |
 | Gói QA đầy đủ    | analyzer → scope → plan → testcase → testdata |
